@@ -1,11 +1,25 @@
 <?php
     $name = ""; 
     $email = "";
+    $nameError = "";
+    $emailError = "";
 
     if ($_SERVER["REQUEST_METHOD"] == "POST"){
         $name = test_input($_POST["name"]);
         $email = test_input($_POST["email"]);
-    }
+
+        if(empty($_POST["name"])){
+            $nameError = "Name is required";
+        } else {
+                $name = test_input($_POST["name"]);
+            }
+
+        if(empty($_POST["email"])){
+            $emailError = "Email is required";
+        } else {
+            $email = test_input($_POST["email"]);
+            }    
+        }
 
     function test_input($data) {
         $data = trim($data);
@@ -13,6 +27,7 @@
         $data = htmlspecialchars($data);
         return $data;
       }
+
 ?>
 
 <!DOCTYPE html>
@@ -28,9 +43,11 @@
 				<form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>">
 				<label>Name:</label>
 				<input type="text" id="name" name="name"> 
+                <span class="error">* <?php echo $nameError;?></span>
 				<br>
 				<label>Email:</label>
 				<input type="email" id="email" name="email" placeholder="@">
+                <span class="error">* <?php echo $emailError;?></span>
 				<br>
 				<input type="submit" id="submit" name="submit" value="Submit">
                 </form>
@@ -38,9 +55,11 @@
 		</div>
         <div class="input">
             <h2>Je gegevens:</h2>
-            <p>Name:   <?php echo $_POST["name"]; ?><br><br>
-                Email:  <?php echo $_POST["email"]; ?>
-            </p>
+            <?php
+            echo $name;
+            echo "<br>";
+            echo $email;
+?>
         </div>
        
 		
